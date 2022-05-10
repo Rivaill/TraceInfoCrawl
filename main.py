@@ -23,7 +23,7 @@ def crawl4byte(hex_signature,fourbytes_api="https://www.4byte.directory/api/v1/s
 
 def crawlExplorer(addrs,explorer_url):
     etherscan_lable_pattern = re.compile(r"title='Public Name Tag \(viewable by anyone\)'>(.*?)</span>")
-    etherscan_token_pattern = re.compile(r'View Token Tracker Page">(.*?)</a>')
+    etherscan_token_pattern = re.compile(r'Tracker Page">(.*?)</a>')
     etherscan_contractname_pattern = re.compile(r'Contract Name:[\s\S]*?>(.*?)</span>')
     etherscan_abi_pattern = re.compile(r'js-copytextarea2.*?>(.*?)</')
 
@@ -56,7 +56,7 @@ def crawlExplorer(addrs,explorer_url):
             else:
                 search_result = re.search(etherscan_token_pattern, res.text)
                 if search_result:
-                    lables[addrs[index]] = search_result.group(1)
+                    lables[addrs[index]] = search_result.group(1).replace("<span>","").replace("</span>","")
                 else:
                     search_result = re.search(etherscan_contractname_pattern, res.text)
                     if search_result and "Contract Creation Code" in res.text:
