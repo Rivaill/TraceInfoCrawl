@@ -35,4 +35,4 @@ Run command according to this
 
 ## Step4
 Paste the Address map and Function map from the script output into TraceView
-![](./screenshot.jpg)
+![screenshot](./screenshot.png)
