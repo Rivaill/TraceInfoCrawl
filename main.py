@@ -12,12 +12,21 @@ HEADERS = {'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/
 
 
 
-def crawl4byte(hex_signature,fourbytes_api="https://www.4byte.directory/api/v1/signatures/?hex_signature=FLAG_SIG"):
+def crawl4byte(hex_signature,fourbytes_api="https://www.4byte.directory/api/v1/signatures/?hex_signature=SIGFLAG"):
     print(hex_signature)
     try:
-        res = requests.get(fourbytes_api.replace("FLAG_SIG", hex_signature),headers=HEADERS, timeout=60)
+        res = requests.get(fourbytes_api.replace("SIGFLAG", hex_signature),headers=HEADERS, timeout=60)
         if "text_signature" in res.text and len(res.json()["results"])>0:
             return res.json()["results"][-1]["text_signature"]
+    except Exception as e:
+        logging.exception(e)
+
+    try:
+        github_4byte = "https://raw.githubusercontent.com/ethereum-lists/4bytes/master/signatures/SIGFLAG"
+        res = requests.get(github_4byte.replace("SIGFLAG", hex_signature),headers=HEADERS, timeout=60)
+        if res.status_code==200:
+            return res.text
+
     except Exception as e:
         logging.exception(e)
 
